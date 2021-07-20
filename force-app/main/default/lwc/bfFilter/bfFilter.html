@@ -1,0 +1,61 @@
+<template>
+    <lightning-layout class="container" multiple-rows="true">
+        <lightning-layout-item size="12" >
+            <div class="slds-float_right">
+                <lightning-button-icon icon-name="utility:delete" alternative-text="remove" title="remove" variant="bare" onclick={removeFilter} ></lightning-button-icon>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item size="12">
+            <lightning-combobox label={labels.filterBy.label}
+                                name="filterBy"
+                                options={filterByOptions}
+                                class="slds-m-bottom_small"
+                                onchange={configureFilter}>
+            </lightning-combobox>
+        </lightning-layout-item>
+        <lightning-layout-item size="12">
+            <div if:true={filterSelected} class="slds-m-top_x-small">
+                <template if:false={isList}>
+                    <template if:true={isBoolean}>
+                        <lightning-radio-group name={filter.name}
+                                                label=""
+                                                options={optionsYesNo}
+                                                value={selectedValue}
+                                                type="button"
+                                                class="slds-text-align_center"
+                                                onchange={handleFilterValueChange}>
+                        </lightning-radio-group>
+                    </template>
+                    <template if:false={isBoolean}>
+                        <lightning-input type={filterType}
+                                        label=""
+                                        step={filter.step}
+                                        value={selectedValue}
+                                        min-value={filter.minValue}
+                                        max-value={filter.maxValue}
+                                        onchange={handleFilterValueChange}>
+                        </lightning-input>
+                    </template>
+                </template>
+                <template if:true={isList}>
+                    <template if:true={filter.multiple}>
+                        <lightning-dual-listbox label=""
+                                                source-label={labels.available.label}
+                                                selected-label={labels.selected.label}
+                                                options={filter.options}
+                                                value={selectedValue}
+                                                onchange={handleFilterValueChange}>
+                        </lightning-dual-listbox>
+                    </template>
+                    <template if:false={filter.multiple}>
+                        <lightning-combobox label=""
+                                            options={filter.options}
+                                            value={selectedValue}
+                                            onchange={handleFilterValueChange}>
+                        </lightning-combobox>                                
+                    </template>
+                </template>    
+            </div>        
+        </lightning-layout-item>
+    </lightning-layout>
+</template>
